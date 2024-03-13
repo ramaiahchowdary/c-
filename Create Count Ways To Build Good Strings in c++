@@ -1,0 +1,27 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int countGoodStrings(int n) {
+    const int MOD = 1e9 + 7;
+    vector<vector<int>> dp(n + 1, vector<int>(26, 1));
+
+    for (int i = 2; i <= n; ++i)
+        for (int j = 0; j < 26; ++j)
+            for (int k = 0; k < 26; ++k)
+                if (j != k)
+                    dp[i][j] = (dp[i][j] + dp[i - 1][k]) % MOD;
+
+    return accumulate(dp[n].begin(), dp[n].end(), 0, [MOD](int acc, int val) { return (acc + val) % MOD; });
+}
+
+int main() {
+    int n;
+    cout << "Enter the length of the string: ";
+    cin >> n;
+
+    cout << "Number of ways to build good strings of length " << n << ": " << countGoodStrings(n) << endl;
+
+    return 0;
+}
