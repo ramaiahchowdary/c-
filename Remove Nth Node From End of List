@@ -1,0 +1,48 @@
+#include <iostream>
+struct ListNode {
+    int val;
+    ListNode* next;
+    ListNode(int x) : val(x), next(nullptr) {}
+};
+ListNode* removeNthFromEnd(ListNode* head, int n) {
+    ListNode* dummy = new ListNode(0);
+    dummy->next = head;
+    ListNode* fast = dummy;
+    ListNode* slow = dummy;
+    for (int i = 0; i <= n; ++i) {
+        fast = fast->next;
+    }
+    while (fast != nullptr) {
+        fast = fast->next;
+        slow = slow->next;
+    }
+    slow->next = slow->next->next;
+
+    return dummy->next;
+}
+void printList(ListNode* head) {
+    while (head != nullptr) {
+        std::cout << head->val << " ";
+        head = head->next;
+    }
+    std::cout << std::endl;
+}
+ListNode* createList(std::initializer_list<int> values) {
+    ListNode* dummy = new ListNode(0);
+    ListNode* current = dummy;
+    for (int val : values) {
+        current->next = new ListNode(val);
+        current = current->next;
+    }
+    return dummy->next;
+}
+int main() {
+    ListNode* head = createList({1, 2, 3, 4, 5});
+    int n = 2;
+    std::cout << "Original linked list: ";
+    printList(head);
+    ListNode* result = removeNthFromEnd(head, n);
+    std::cout << "Linked list after removing the " << n << "-th node from the end: ";
+    printList(result);
+    return 0;
+}
