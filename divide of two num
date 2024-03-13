@@ -1,0 +1,26 @@
+#include <iostream>
+
+int main() {
+    // Declare two integers
+    int dividend, divisor;
+
+    // Get input for the dividend and divisor
+    std::cout << "Enter the dividend: ";
+    std::cin >> dividend;
+
+    std::cout << "Enter the divisor: ";
+    std::cin >> divisor;
+
+    // Check if divisor is not zero to avoid division by zero error
+    if (divisor != 0) {
+        // Perform the division
+        int quotient = dividend / divisor;
+
+        // Display the result
+        std::cout << "Quotient: " << quotient << std::endl;
+    } else {
+        std::cout << "Error: Division by zero is undefined." << std::endl;
+    }
+
+    return 0;
+}
