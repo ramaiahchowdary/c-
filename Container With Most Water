@@ -1,0 +1,49 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+int maxArea(std::vector<int>& height) {
+    int left = 0;
+    int right = height.size() - 1;
+    int maxArea = 0;
+
+    while (left < right) {
+        // Calculate the width of the container
+        int width = right - left;
+
+        // Calculate the height of the container (minimum height of the two lines)
+        int h = std::min(height[left], height[right]);
+
+        // Update the maximum area if a larger one is found
+        maxArea = std::max(maxArea, width * h);
+
+        // Move the pointers towards the center
+        if (height[left] < height[right]) {
+            left++;
+        } else {
+            right--;
+        }
+    }
+
+    return maxArea;
+}
+
+int main() {
+    std::vector<int> heights;
+    int n, height;
+
+    std::cout << "Enter the number of elements: ";
+    std::cin >> n;
+
+    std::cout << "Enter the heights of the lines: ";
+    for (int i = 0; i < n; ++i) {
+        std::cin >> height;
+        heights.push_back(height);
+    }
+
+    int result = maxArea(heights);
+
+    std::cout << "Maximum water container area: " << result << std::endl;
+
+    return 0;
+}
