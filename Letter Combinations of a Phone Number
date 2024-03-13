@@ -1,0 +1,59 @@
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+
+std::vector<std::string> letterCombinations(std::string digits) {
+    std::vector<std::string> result;
+    
+    if (digits.empty()) {
+        return result;
+    }
+
+    std::unordered_map<char, std::string> digitToLetters = {
+        {'2', "abc"}, {'3', "def"}, {'4', "ghi"},
+        {'5', "jkl"}, {'6', "mno"}, {'7', "pqrs"},
+        {'8', "tuv"}, {'9', "wxyz"}
+    };
+
+    std::string currentCombination = "";
+    generateCombinations(digits, 0, currentCombination, digitToLetters, result);
+
+    return result;
+}
+
+void generateCombinations(const std::string& digits, int index, std::string& currentCombination,
+                           const std::unordered_map<char, std::string>& digitToLetters,
+                           std::vector<std::string>& result) {
+    if (index == digits.length()) {
+        result.push_back(currentCombination);
+        return;
+    }
+
+    char currentDigit = digits[index];
+    const std::string& letters = digitToLetters.at(currentDigit);
+
+    for (char letter : letters) {
+        currentCombination.push_back(letter);
+        generateCombinations(digits, index + 1, currentCombination, digitToLetters, result);
+        currentCombination.pop_back();
+    }
+}
+
+int main() {
+    std::string digits;
+    std::cout << "Enter a string of digits: ";
+    std::cin >> digits;
+
+    std::vector<std::string> result = letterCombinations(digits);
+
+    std::cout << "Letter combinations: [";
+    for (const std::string& combination : result) {
+        std::cout << combination << ", ";
+    }
+    if (!result.empty()) {
+        std::cout << "\b\b";  // Remove the trailing comma and space
+    }
+    std::cout << "]" << std::endl;
+
+    return 0;
+}
