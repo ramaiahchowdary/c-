@@ -1,0 +1,35 @@
+#include <iostream>
+#include <vector>
+#include <string>
+void generateParenthesisHelper(int n, int openCount, int closeCount, std::string current, std::vector<std::string>& result) {
+    if (current.length() == 2 * n) {
+        result.push_back(current);
+        return;
+    }
+    if (openCount < n) {
+        generateParenthesisHelper(n, openCount + 1, closeCount, current + '(', result);
+    }
+    if (closeCount < openCount) {
+        generateParenthesisHelper(n, openCount, closeCount + 1, current + ')', result);
+    }
+}
+std::vector<std::string> generateParenthesis(int n) {
+    std::vector<std::string> result;
+    generateParenthesisHelper(n, 0, 0, "", result);
+    return result;
+}
+int main() {
+    int n;
+    std::cout << "Enter the number of pairs: ";
+    std::cin >> n;
+    std::vector<std::string> result = generateParenthesis(n);
+    std::cout << "Generated parentheses combinations: [";
+    for (const std::string& combination : result) {
+        std::cout << combination << ", ";
+    }
+    if (!result.empty()) {
+        std::cout << "\b\b";  // Remove the trailing comma and space
+    }
+    std::cout << "]" << std::endl;
+    return 0;
+}
